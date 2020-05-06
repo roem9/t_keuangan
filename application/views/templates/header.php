@@ -82,9 +82,9 @@
                         <option value="">Pilih Laporan</option>
                         <option value="deposit">Deposit</option>
                         <option value="invoice">Invoice</option>
-                        <option value="piutang pv khusus">Piutang Pv Khusus</option>
+                        <!-- <option value="piutang pv khusus">Piutang Pv Khusus</option> -->
                         <option value="piutang pv luar">Piutang Pv Luar</option>
-                        <option value="piutang reguler">Piutang Reguler</option>
+                        <!-- <option value="piutang reguler">Piutang Reguler</option> -->
                         <option value="transfer">Transfer</option>
                       </select>
                     </div>

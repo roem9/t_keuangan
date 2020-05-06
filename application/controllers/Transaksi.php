@@ -41,27 +41,33 @@ class Transaksi extends CI_CONTROLLER{
             }
             
             $this->load->view("transaksi/excel_deposit", $data);
-        } else if($tipe == "piutang reguler"){
+        } 
+        
+        // else if($tipe == "piutang reguler"){
 
-            $data['title'] = "Laporan Piutang Peserta Reguler";
-            $name = "Piutang Reguler";
-            header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        //     $data['title'] = "Laporan Piutang Peserta Reguler";
+        //     $name = "Piutang Reguler";
+        //     header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        //     header('Content-Disposition: attachment;filename="'.$name.'.xls"');
 
-            $data['data'] = $this->Keuangan_model->get_all_tagihan_reguler();
+        //     $data['data'] = $this->Keuangan_model->get_all_tagihan_reguler();
 
-            $this->load->view("transaksi/excel_piutang", $data);
-        } else if($tipe == "piutang pv khusus"){
+        //     $this->load->view("transaksi/excel_piutang", $data);
+        // } 
+        
+        // else if($tipe == "piutang pv khusus"){
             
-            $data['title'] = "Laporan Piutang Peserta PV Khusus";
-            $name = "Piutang Pv Khusus";
-            header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        //     $data['title'] = "Laporan Piutang Peserta PV Khusus";
+        //     $name = "Piutang Pv Khusus";
+        //     header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        //     header('Content-Disposition: attachment;filename="'.$name.'.xls"');
 
-            $data['data'] = $this->Keuangan_model->get_all_tagihan_pv_khusus();
+        //     $data['data'] = $this->Keuangan_model->get_all_tagihan_pv_khusus();
 
-            $this->load->view("transaksi/excel_piutang", $data);
-        } else if($tipe == "piutang pv luar"){
+        //     $this->load->view("transaksi/excel_piutang", $data);
+        // } 
+        
+        else if($tipe == "piutang pv luar"){
             $data['title'] = "Laporan Piutang Peserta PV Luar";
             
             $name = "Piutang Pv luar";
