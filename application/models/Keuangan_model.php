@@ -2,21 +2,6 @@
 class Keuangan_model extends CI_MODEL{
     
     // get by
-        // 011 karyawan, 012 kpq
-        public function civitas_by_type($tipe){
-            $this->db->from("kpq");
-            $this->db->where("substring(nip, 1, 3) = ", $tipe);
-            $this->db->order_by("nama_kpq", "asc");
-            $this->db->where("status", "aktif");
-            return $this->db->get()->result_array();
-        }
-
-        public function get_civitas_by_nip($nip){
-            $this->db->from("kpq");
-            $this->db->where("nip", $nip);
-            return $this->db->get()->row_array();
-        }
-        
         public function get_peserta_kbm($id_kbm){
             $this->db->select("count(id_peserta) as peserta_hadir");
             $this->db->from("presensi_peserta");
@@ -460,7 +445,7 @@ class Keuangan_model extends CI_MODEL{
             return $this->db->get()->row_array();
         }
         
-        public function getJadwalAktif($id_kelas){
+        public function get_jadwal_aktif_by_id_kelas($id_kelas){
             $this->db->from("jadwal");
             $this->db->where("status", "aktif");
             $this->db->where("id_kelas", $id_kelas);
@@ -619,14 +604,6 @@ class Keuangan_model extends CI_MODEL{
     // get all
 
     // edit data
-        public function edit_civitas($nip){
-            $data ['kpq'] = [
-                "golongan" => $this->input->post("golongan", true)
-            ];
-            $this->db->where("nip", $nip);
-            $this->db->update("kpq", $data['kpq']);
-        }
-        
         public function edit_tagihan(){
             $data = [
                 "nama_tagihan" => $this->input->post("nama", TRUE),
@@ -871,46 +848,16 @@ class Keuangan_model extends CI_MODEL{
             $this->db->insert("invoice_uraian", $data);
         }
         
-        public function insertPiutangKelas($id_tagihan, $id_kelas, $koor, $uraian, $nominal){
-            $data['tagihan'] = [
-                "id_tagihan" => $id_tagihan,
-                "tgl_tagihan" => date("Y-m-d"),
-                // "tgl_tagihan" => "2020-01-01",
-                "nama_tagihan" => $koor,
-                "uraian" => $uraian,
-                "nominal" => $nominal,
-                "status" => "piutang",
-                "ket" => "bulanan"
-            ];
-
-            $this->db->insert("tagihan", $data['tagihan']);
-
-            $data['tagihan_kelas'] = [
-                "id_tagihan" => $id_tagihan,
-                "id_kelas" => $id_kelas
-            ];
-
-            $this->db->insert("tagihan_kelas", $data['tagihan_kelas']);
+        public function insert_tagihan($data){
+            $this->db->insert("tagihan", $data);
         }
         
-        public function insertPiutangPeserta($id_tagihan, $id_peserta, $nama_peserta, $uraian, $nominal){
-            $data['tagihan'] = [
-                "id_tagihan" => $id_tagihan,
-                "tgl_tagihan" => date("Y-m-d"),
-                "nama_tagihan" => $nama_peserta,
-                "status" => "piutang",
-                "uraian" => $uraian,
-                "nominal" => $nominal,
-            ];
+        public function insert_tagihan_kelas($data){
+            $this->db->insert("tagihan_kelas", $data);
+        }
 
-            $this->db->insert("tagihan", $data['tagihan']);
-
-            $data['tagihan_peserta'] = [
-                "id_tagihan" => $id_tagihan,
-                "id_peserta" => $id_peserta
-            ];
-
-            $this->db->insert("tagihan_peserta", $data['tagihan_peserta']);
+        public function insert_tagihan_peserta($data){
+            $this->db->insert("tagihan_peserta", $data);
         }
         
         public function add_pembayaran_by_deposit(){
@@ -1158,12 +1105,9 @@ class Keuangan_model extends CI_MODEL{
             }
         }
         
-        public function edit_pj(){
-            $id = $this->input->post("id", TRUE);
-            $nama = $this->input->post("nama", TRUE);
-
+        public function edit_pj($id, $data){
             $this->db->where("id_kelas", $id);
-            $this->db->update("kelas", ["pj" => $nama]);
+            $this->db->update("kelas", $data);
         }
         
         public function edit_status_tagihan(){

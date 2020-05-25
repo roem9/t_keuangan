@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-success btn-sm" value="Edit">
+          <input type="submit" class="btn btn-success btn-sm" value="Edit PJ" id="btnModalEditPj">
         </div>
       </form>
     </div>
@@ -33,15 +33,10 @@
             </div>
             
             
-          <?php if( $this->session->flashdata('piutang') ) : ?>
+          <?php if( $this->session->flashdata('pesan') ) : ?>
               <div class="row">
-                  <div class="col-6">
-                      <div class="alert alert-success alert-dismissible fade show" role="alert">
-                          Data piutang <strong>berhasil</strong> <?= $this->session->flashdata('piutang');?>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
+                  <div class="col-12"> 
+                    <?= $this->session->flashdata('pesan');?>
                   </div>
               </div>
           <?php endif; ?>
@@ -269,11 +264,16 @@
         $("#nominal_deposit").keyup(function(){
             $("#nominal_deposit").val(formatRupiah(this.value, 'Rp. '))
         })
+
     // validasi
 
     // submit
-    $("#btn-submit-1, #btn-submit-2, #btn-submit-3").click(function(){
-      var c = confirm("Yakin akan menambahkan data?");
-      return c;
-    })
+        $("#btn-submit-1, #btn-submit-2, #btn-submit-3").click(function(){
+        var c = confirm("Yakin akan menambahkan data?");
+        return c;
+        })
+        
+        $("#btnModalEditPj").click(function(){
+            var c = confirm("Yakin akan mengubah data pj?")
+        })
 </script>

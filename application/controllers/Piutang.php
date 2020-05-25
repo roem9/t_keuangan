@@ -8,11 +8,14 @@
                 $this->session->set_flashdata('flash', 'Maaf, Anda harus login terlebih dahulu');
                 redirect(base_url("login"));
             }
+            
+            ini_set("xdebug.var_display_max_children", -1);
+            ini_set("xdebug.var_display_max_data", -1);
+            ini_set("xdebug.var_display_max_depth", -1);
         }
 
         public function reguler(){
             $data['title'] = 'Piutang Peserta Reguler';
-            $data['tabs'] = 'reguler';
             
             $data["peserta"] = [];
 
@@ -20,7 +23,6 @@
             foreach ($peserta as $key => $peserta) {
                 $data['peserta'][$key] = $peserta;
 
-                // $data['peserta'][$key]['piutang'] = $this->Keuangan_model->get_piutang_peserta_by_id($peserta['id_peserta']);
                 // tagihan
                 $tagihan = $this->Keuangan_model->get_total_tagihan_peserta($peserta['id_peserta']);
                 // deposit
@@ -34,12 +36,7 @@
 
                 $data['peserta'][$key]['bayar'] = $transfer['total'] + $cash['total'];
             }
-
             
-            // ini_set("xdebug.var_display_max_children", -1);
-            // ini_set("xdebug.var_display_max_data", -1);
-            // ini_set("xdebug.var_display_max_depth", -1);
-            // var_dump($data);
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar');
             $this->load->view('piutang/piutang_peserta', $data);
@@ -48,7 +45,6 @@
 
         public function pvKhusus(){
             $data['title'] = 'Piutang Kelas Pv Khusus';
-            $data['tabs'] = 'pvkhusus';
 
             $data['kelas'] = [];
 
@@ -78,7 +74,6 @@
         
         public function pvLuar(){
             $data['title'] = 'Piutang Kelas Pv Luar';
-            $data['tabs'] = 'pvluar';
 
             $data['kelas'] = [];
 
@@ -129,7 +124,6 @@
                 $data['kpq'][$key]['bayar'] = $transfer['total'] + $cash['total'];
             }
 
-            // var_dump($data['kpq']);
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar');
             $this->load->view('piutang/piutang_kpq', $data);
@@ -137,46 +131,64 @@
         }
 
         public function generatePiutang(){
-
-            // start transaction
-            // $this->Keuangan_model->start_transaction();
-
             $bulan = ["1" => "Januari", "2" => "Februari", "3" => "Maret", "4" => "April", "5" => "Mei", "6" => "Juni", "7" => "Juli", "8" => "Agustus", "9" => "September", "10" => "Oktober", "11" => "November", "12" => "Desember"];
 
             $kelas = $this->Keuangan_model->getAllKelasPvAktif();
 
             $data['kelas'] = [];
-            foreach ($kelas as $key => $kelas) {
-                $data['kelas'][$key] = $kelas;
-                $jadwal = $this->Keuangan_model->getJadwalAktif($kelas['id_kelas']);
+            foreach ($kelas as $i => $kelas) {
+                $data['kelas'][$i] = $kelas;
+                $jadwal = $this->Keuangan_model->get_jadwal_aktif_by_id_kelas($kelas['id_kelas']);
                 $nominal = 0;
-                $data['kelas'][$key]['ot'] = 0;
-                foreach ($jadwal as $i => $jadwal) {
+                $data['kelas'][$i]['ot'] = 0;
+                foreach ($jadwal as $jadwal) {
                     if($jadwal['ot'] != 0){
-                        $data['kelas'][$key]['ot']++; 
+                        $data['kelas'][$i]['ot'] += 1; 
                     }
                 }
-                $data['kelas'][$key]['jadwal']= COUNT($this->Keuangan_model->getJadwalAktif($kelas['id_kelas']));
-                $ot = $this->Keuangan_model->getInfaqByKet("ot");
-                $data['kelas'][$key]['pembayaran']['ot'] = $data['kelas'][$key]['ot'] * $ot['infaq'];
-                $biayajadwal = $this->Keuangan_model->getInfaqByKet($kelas['ket']);
-                $data['kelas'][$key]['pembayaran']['jadwal'] = $data['kelas'][$key]['jadwal'] * $biayajadwal['infaq']; 
+                $data['kelas'][$i]['jadwal']= COUNT($this->Keuangan_model->get_jadwal_aktif_by_id_kelas($kelas['id_kelas']));
+                
+                // infaq overtime
+                    $ot = $this->Keuangan_model->getInfaqByKet("ot");
+                    $data['kelas'][$i]['pembayaran']['ot'] = $data['kelas'][$i]['ot'] * $ot['infaq'];
+                // infaq overtime
 
-                if ($data['kelas'][$key]['ot'] == 0){
-                    $uraian = $bulan[date('n')] . " " . date('Y') . " " . $data['kelas'][$key]['jadwal'] . " jadwal";
+                // infaq jadwal
+                    $biayajadwal = $this->Keuangan_model->getInfaqByKet($kelas['ket']);
+                    $data['kelas'][$i]['pembayaran']['jadwal'] = $data['kelas'][$i]['jadwal'] * $biayajadwal['infaq']; 
+                // infaq jadwal
+
+                if ($data['kelas'][$i]['ot'] == 0){
+                    $uraian = $bulan[date('n')] . " " . date('Y') . " " . $data['kelas'][$i]['jadwal'] . " jadwal";
                 } else {
-                    $uraian = $bulan[date('n')] . " " . date('Y') . " " . $data['kelas'][$key]['jadwal'] . " jadwal + " . $data['kelas'][$key]['ot'] . " OT";
+                    $uraian = $bulan[date('n')] . " " . date('Y') . " " . $data['kelas'][$i]['jadwal'] . " jadwal + " . $data['kelas'][$i]['ot'] . " OT";
                 }
 
                 // var_dump($data);
-                $nominal = $data['kelas'][$key]['pembayaran']['jadwal'] + $data['kelas'][$key]['pembayaran']['ot'];
+                $nominal = $data['kelas'][$i]['pembayaran']['jadwal'] + $data['kelas'][$i]['pembayaran']['ot'];
 
                 // tentukan tagihannya
                 $id = $this->Keuangan_model->getLastIdTagihan();
                 $id_tagihan = $id['id_tagihan'] + 1;
 
-                $this->Keuangan_model->insertPiutangKelas($id_tagihan, $kelas['id_kelas'], $kelas['nama_peserta'], $uraian, $nominal);
+                $data = [
+                    "id_tagihan" => $id_tagihan,
+                    "tgl_tagihan" => date("Y-m-d"),
+                    "nama_tagihan" => $kelas['nama_peserta'],
+                    "uraian" => $uraian,
+                    "nominal" => $nominal,
+                    "status" => "piutang",
+                    "ket" => "bulanan"
+                ];
+
+                $this->Keuangan_model->insert_tagihan($data);
                 
+                $data = [
+                    "id_tagihan" => $id_tagihan,
+                    "id_kelas" => $kelas['id_kelas']
+                ];
+
+                $this->Keuangan_model->insert_tagihan_kelas($data);
             }
             
             $reguler = $this->Keuangan_model->getInfaqByKet("reguler");
@@ -185,19 +197,30 @@
             foreach ($peserta as $peserta) {
                 $id = $this->Keuangan_model->getLastIdTagihan();
                 $id_tagihan = $id['id_tagihan'] + 1;
-                $this->Keuangan_model->insertPiutangPeserta($id_tagihan, $peserta['id_peserta'], $peserta['nama_peserta'], $uraian, $reguler['infaq']);
+                
+                $data = [
+                    "id_tagihan" => $id_tagihan,
+                    "tgl_tagihan" => date("Y-m-d"),
+                    "nama_tagihan" => $peserta['nama_peserta'],
+                    "uraian" => $uraian,
+                    "nominal" => $reguler['infaq'],
+                    "status" => "piutang",
+                    "ket" => "bulanan"
+                ];
+
+                $this->Keuangan_model->insert_tagihan($data);
+
+                $data = [
+                    "id_tagihan" => $id_tagihan,
+                    "id_peserta" => $peserta['id_peserta']
+                ];
+
+                $this->Keuangan_model->insert_tagihan_peserta($data);
+
             }
 
-            // ini_set("xdebug.var_display_max_children", -1);
-            // ini_set("xdebug.var_display_max_data", -1);
-            // ini_set("xdebug.var_display_max_depth", -1);
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengenerate</strong> piutang<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             
-            // var_dump($data);
-            
-            // end transaction
-            // $this->Keuangan_model->end_transaction();
-
-            $this->session->set_flashdata('piutang', 'digenerate');
             redirect('piutang/pvluar');
         }
 
@@ -222,7 +245,14 @@
         }
         
         public function edit_pj(){
-            $this->Keuangan_model->edit_pj();
+            $id = $this->input->post("id", TRUE);
+            $data = [
+                "pj" => $this->input->post("nama", TRUE)
+            ];
+
+            $this->Keuangan_model->edit_pj($id, $data);
+            
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengubah</strong> pj kelas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 
             redirect($_SERVER['HTTP_REFERER']);
         }

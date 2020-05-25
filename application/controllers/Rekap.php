@@ -10,6 +10,10 @@ class Rekap extends CI_CONTROLLER{
             $this->session->set_flashdata("flash", "Maaf, Anda harus login terlebih dahulu");
             redirect(base_url('login'));
         }
+        
+        ini_set('xdebug.var_display_max_depth', '10');
+        ini_set('xdebug.var_display_max_children', '256');
+        ini_set('xdebug.var_display_max_data', '1024');
     }
 
     public function honor(){
@@ -35,7 +39,7 @@ class Rekap extends CI_CONTROLLER{
 
     public function exporthonor($bulan, $tahun){
 
-        $filename = "Rekap Honor {$bulan}-{$tahun}";
+        $filename = "Rekap_Honor_{$bulan}_{$tahun}";
 
         header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header('Content-Disposition: attachment;filename="'.$filename.'.xls"');
@@ -67,11 +71,6 @@ class Rekap extends CI_CONTROLLER{
             }
         }
 
-        // ini_set('xdebug.var_display_max_depth', '10');
-        // ini_set('xdebug.var_display_max_children', '256');
-        // ini_set('xdebug.var_display_max_data', '1024');
-
-        // var_dump($data);
         $this->load->view("rekap/rekap-bulanan", $data);
     }
 }

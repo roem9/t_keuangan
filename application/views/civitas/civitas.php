@@ -71,48 +71,56 @@
                         </div>
                 </div>
             <?php endif; ?>
-            <div class="card shadow mb-4" style="max-width: 800px">
-                <div class="card-body">
-                    <table id="dataTable" class="table table-sm cus-font">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Status</th>
-                                <th>NIK</th>
-                                <th>Nama KPQ</th>
-                                <th>Tgl. Kelas</th>
-                                <th>Golongan</th>
-                                <th><center>Detail</center></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                                $no = 0;
-                                foreach ($civitas as $civitas) :?>
+            <?php if($civitas):?>
+                <div class="card shadow mb-4" style="max-width: 800px">
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-sm cus-font">
+                            <thead>
                                 <tr>
-                                    <td><center><?=++$no?></center></td>
-                                    <td><?= $civitas['status']?></td>
-                                    <td><?= $civitas['nip']?></td>
-                                    <td style="width: 30%"><?= $civitas['nama_kpq']?>
-                                    <td>
-                                        <center>
-                                            <?php 
-                                                if($civitas['tgl_kelas'] == "0000-00-00"){
-                                                    echo "-";
-                                                } else {
-                                                    echo date("d-M-Y", strtotime($civitas['tgl_kelas']));
-                                                };
-                                            ?>
-                                        </center>
-                                    </td>
-                                    <td>Gol. <?= $civitas['golongan']?></td>
-                                    <td><center><a href="#" class="badge badge-warning modalCivitas" data-toggle="modal" data-target="#modalCivitas" data-id="<?= $civitas['nip']?>">detail</a></center></td>
+                                    <th>No</th>
+                                    <th>Status</th>
+                                    <th>NIK</th>
+                                    <th>Nama KPQ</th>
+                                    <th>Tgl. Kelas</th>
+                                    <th>Golongan</th>
+                                    <th><center>Detail</center></th>
                                 </tr>
-                            <?php endforeach;?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                    $no = 0;
+                                    foreach ($civitas as $civitas) :?>
+                                    <tr>
+                                        <td><center><?=++$no?></center></td>
+                                        <td><?= $civitas['status']?></td>
+                                        <td><?= $civitas['nip']?></td>
+                                        <td style="width: 30%"><?= $civitas['nama_kpq']?>
+                                        <td>
+                                            <center>
+                                                <?php 
+                                                    if($civitas['tgl_kelas'] == "0000-00-00"){
+                                                        echo "-";
+                                                    } else {
+                                                        echo date("d-M-Y", strtotime($civitas['tgl_kelas']));
+                                                    };
+                                                ?>
+                                            </center>
+                                        </td>
+                                        <td>Gol. <?= $civitas['golongan']?></td>
+                                        <td><center><a href="#" class="badge badge-warning modalCivitas" data-toggle="modal" data-target="#modalCivitas" data-id="<?= $civitas['nip']?>">detail</a></center></td>
+                                    </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            <?php else :?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-warning"><i class="fa fa-exclamation-circle text-warning mr-1"></i>Data civitas kosong</div>
+                    </div>
+                </div>
+            <?php endif;?>
         </div>
     </div>
 </div>
