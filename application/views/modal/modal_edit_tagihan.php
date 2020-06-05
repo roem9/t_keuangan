@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <input type="submit" class="btn btn-success btn-sm" value="Edit" id="hapusInvoice">
+          <input type="submit" class="btn btn-success btn-sm" value="Edit" id="submitModalEditData">
         </div>
       </form>
     </div>

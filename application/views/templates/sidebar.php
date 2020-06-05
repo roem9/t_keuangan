@@ -48,7 +48,8 @@
             <a class="collapse-item text-light" href="<?=base_url()?>piutang/pvkhusus">Piutang PV Khusus</a>
             <a class="collapse-item text-light" href="<?=base_url()?>piutang/pvluar">Piutang PV Luar</a>
             <a class="collapse-item text-light" href="<?=base_url()?>piutang/kpq">Piutang Civitas</a>
-            <a class="collapse-item text-light" onclick="return confirm('Apakah Anda yakin akan mengenerate piutang?')" href="<?=base_url()?>piutang/generatepiutang">Generate Piutang</a>
+            <a class="collapse-item text-light" href="<?=base_url()?>transaksi/lainnya">Transaksi Lainnya</a>
+            <a class="collapse-item text-light bg-danger" onclick="return confirm('Apakah Anda yakin akan mengenerate piutang?')" href="<?=base_url()?>piutang/generatepiutang">Generate Piutang</a>
           </div>
         </div>
       </li>

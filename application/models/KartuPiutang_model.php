@@ -497,6 +497,17 @@ class KartuPiutang_model extends CI_MODEL{
         $this->db->update("deposit", $data);
     }
 
+    public function get_last_id_transfer(){
+        $bulan = date("m", strtotime($this->input->post("tgl")));
+        $tahun = date("Y", strtotime($this->input->post("tgl")));
+        $this->db->select("substr(id_transfer, 1, 3) as id");
+        $this->db->from("transfer");
+        $this->db->where("MONTH(tgl_transfer)", $bulan);
+        $this->db->where("YEAR(tgl_transfer)", $tahun);
+        $this->db->order_by("id", "DESC");
+        return $this->db->get()->row_array();
+    }
+    
     public function get_data_tagihan(){
         $id = $this->input->post("id");
         $this->db->from("tagihan");

@@ -6,126 +6,127 @@
             </div>
 
             <div class="row">
-            <div class="col-8">
-                <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs">
-                            <li class="nav-item">
-                                <a href="#" class='nav-link active' id="btn-1">Kartu Piutang</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class='nav-link' id="btn-2">Invoice</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class='nav-link bg-success text-light modalTransaksi' id="detailKelas" data-toggle="modal" data-target="#modalTransaksi" data-id="<?= $id?>">Transaksi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class='nav-link bg-danger text-light modalTambahInvoice' id="detailKelas" data-toggle="modal" data-target="#modal_tambah_invoice" data-id="<?= $id?>">Invoice</a>
-                            </li>
-                        </ul>
+                <?php if( $this->session->flashdata('pesan') ) : ?>
+                    <div class="col-6">
+                        <?= $this->session->flashdata('pesan');?>
                     </div>
-                    <div class="card-body">
-                        <div id="data-btn-1">
-                            <h5>Saldo : <?= rupiah($total)?></h5>
-                            <table class="table table-sm cus-font">
-                                <thead>
-                                    <th><center>No</center></th>
-                                    <!-- <th>Tagihan</th> -->
-                                    <th>Tgl</th>
-                                    <th>Keterangan</th>
-                                    <th>Debit</th>
-                                    <th>Kredit</th>
-                                    <th>Metode</th>
-                                    <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Print</th>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                        $no = 0;
-                                        foreach ($detail as $detail) :?>
-                                        <tr>
-                                            <td><?= ++$no?></td>
-                                            <td><?= date("d-M-Y", strtotime($detail['tgl']))?></td>
-                                                <?php if($detail['status'] == 'tagihan'):?>
-                                                    
-                                                    <td><?= $detail['uraian']?></td>
-                                                    <td><?= rupiah($detail['nominal'])?></td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                    <?php
-                                                        $color = $detail['ket'] == "piutang" ? $color = "danger" : $color = "success";
-                                                    ?>
-                                                    <td><a href="#modal_edit_status_tagihan" data-id="<?= $detail['id_tagihan']?>|<?=$detail['ket']?>" data-toggle="modal" class="badge badge-<?= $color?> modal_edit_status_tagihan"><?= $detail['ket']?></a></td>
-                                                    <td><a href="#" class="badge badge-success modalEditTagihan" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_tagihan']?>">edit</a></td>
-                                                    <td>-</td>
-
-                                                <?php elseif($detail['status'] == 'deposit') : ?>
-
-                                                    <td><?= $detail['uraian']?></td>
-                                                    <td><?= rupiah($detail['nominal'])?></td>
-                                                    <td>-</td>
-                                                    <td><center><?=$detail['metode']?></center></td>
-                                                    <td>-</td>
-                                                    <td><a href="#" class="badge badge-success modalEditDeposit" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_deposit']?>">edit</a></td>
-                                                    <td>-</td>                                                
-
-                                                <?php elseif($detail['status'] == 'cash') :?>
-                                                    
-                                                    <td><?= $detail['uraian']?></td>
-                                                    <td>-</td>
-                                                    <td><?= rupiah($detail['nominal'])?></td>
-                                                    <td><center><?=$detail['metode']?></center></td>
-                                                    <td>-</td>
-                                                    <td><a href="#" class="badge badge-success modalEditCash" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_pembayaran']?>">edit</a></td>
-                                                    <td><a href="<?=base_url()?>kartupiutang/kwitansi/<?= $detail['id_pembayaran']?>" target=_blank><center><i class="fa fa-print"></i></center></a></td>
-
-                                                <?php elseif($detail['status'] == 'transfer') :?>
-                                                    
-                                                    <td><?= $detail['uraian']?></td>
-                                                    <td>-</td>
-                                                    <td><?= rupiah($detail['nominal'])?></td>
-                                                    <td><center><?=$detail['metode']?></center></td>
-                                                    <td>-</td>
-                                                    <td><a href="#" class="badge badge-success modalEditTransfer" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_transfer']?>">edit</a></td>
-                                                    <td><a href="<?=base_url()?>kartupiutang/kwitansi_transfer/<?= $detail['id_transfer']?>" target=_blank><center><i class="fa fa-print"></i></center></a></td>
-
-                                                <?php endif;?>
-                                        </tr>
-                                    <?php endforeach;?>
-                                </tbody>
-                            </table>
+                <?php endif; ?>
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a href="#" class='nav-link active' id="btn-1">Kartu Piutang</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class='nav-link' id="btn-2">Invoice</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class='nav-link bg-success text-light modalTransaksi' id="detailKelas" data-toggle="modal" data-target="#modalTransaksi" data-id="<?= $id?>">Transaksi</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class='nav-link bg-danger text-light modalTambahInvoice' id="detailKelas" data-toggle="modal" data-target="#modal_tambah_invoice" data-id="<?= $id?>">Invoice</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div id="data-btn-2">
-                            <table class="table table-sm cus-font w-75">
-                                <thead>
-                                    <td>No</td>
-                                    <td>Tgl Tagihan</td>
-                                    <td>No Tagihan</td>
-                                    <td>Edit</td>
-                                    <td>Print</td>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $no = 0;
-                                        foreach ($invoice as $invoice) :?>
-                                        <tr>
-                                            <td><?= ++$no?></td>
-                                            <td><?= date("d-m-Y", strtotime($invoice['tgl_invoice']))?></td>
-                                            <td><?= substr($invoice['id_invoice'],0, 3)?>/Tag-Im/<?= date('n', strtotime($invoice['tgl_invoice']))?>/<?= date('Y', strtotime($invoice['tgl_invoice']))?></a></td>
-                                            
-                                            <td><a href="#" data-target="#modal_edit_invoice" data-id="<?=$invoice['id_invoice']?>" data-toggle="modal" class="badge badge-success modalEditInvoice">edit</a></td>
-                                            
-                                            <td><center><a target="_blank" href="<?= base_url()?>kartupiutang/invoice/<?=$invoice['id_invoice']?>"><i class="fa fa-print"></i></a></center></td>
-                                        </tr>
+                        <div class="card-body">
+                            <div id="data-btn-1">
+                                <?php if($total >= 0):?>
+                                    <h5 class="text-success">Saldo : <?= rupiah($total)?></h5>
+                                <?php else:?>
+                                    <h5 class="text-danger">Piutang : <?= rupiah($total)?></h5>
+                                <?php endif;?>
+                                <table class="table table-sm cus-font">
+                                    <thead>
+                                        <th><center>No</center></th>
+                                        <th>Tgl</th>
+                                        <th>Keterangan</th>
+                                        <th>Debit</th>
+                                        <th>Kredit</th>
+                                        <th>Metode</th>
+                                        <th>Status</th>
+                                        <th>Print</th>
+                                        <th>Edit</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                            $no = 0;
+                                            foreach ($detail as $detail) :?>
+                                            <tr>
+                                                <td><?= ++$no?></td>
+                                                <td><?= date("d-M-Y", strtotime($detail['tgl']))?></td>
+                                                    <?php if($detail['status'] == 'tagihan'):?>
+                                                        <td><?= $detail['uraian']?></td>
+                                                        <td><?= rupiah($detail['nominal'])?></td>
+                                                        <td><center>-</center></td>
+                                                        <td><center>-</center></td>
+                                                        <?php if($detail['ket'] == "piutang"):?>
+                                                            <td><center><a onclick="return confirm('Yakin akan mengubah staus piutang menjadi lunas?')" href="<?= base_url()?>kartupiutang/edit_status_piutang/<?= md5($detail['id_tagihan'])?>/lunas"><i class="fa fa-times-circle text-danger"></i></a></center></td>
+                                                        <?php elseif($detail['ket'] == "lunas"):?>
+                                                            <td><center><a onclick="return confirm('Yakin akan mengubah staus piutang menjadi piutang?')" href="<?= base_url()?>kartupiutang/edit_status_piutang/<?= md5($detail['id_tagihan'])?>/piutang"><i class="fa fa-check-circle text-success"></i></a></center></td>
+                                                        <?php endif;?>
+                                                        <td><center>-</center></td>
+                                                        <td><a href="#" class="badge badge-success modalEditTagihan" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_tagihan']?>">edit</a></td>
+                                                    <?php elseif($detail['status'] == 'deposit') : ?>
+                                                        <td><?= $detail['uraian']?></td>
+                                                        <td><?= rupiah($detail['nominal'])?></td>
+                                                        <td><center>-</center></td>
+                                                        <td><center><?=$detail['metode']?></center></td>
+                                                        <td><center>-</center></td>
+                                                        <td><center>-</center></td>
+                                                        <td><a href="#" class="badge badge-success modalEditDeposit" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_deposit']?>">edit</a></td>
+                                                    <?php elseif($detail['status'] == 'cash') :?>
+                                                        <td><?= $detail['uraian']?></td>
+                                                        <td><center>-</center></td>
+                                                        <td><?= rupiah($detail['nominal'])?></td>
+                                                        <td><center><?=$detail['metode']?></center></td>
+                                                        <td><center>-</center></td>
+                                                        <td><center>-</center></td>
+                                                        <td><a href="#" class="badge badge-success modalEditCash" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_pembayaran']?>">edit</a></td>
+                                                    <?php elseif($detail['status'] == 'transfer') :?>
+                                                        <td><?= $detail['uraian']?></td>
+                                                        <td><center>-</center></td>
+                                                        <td><?= rupiah($detail['nominal'])?></td>
+                                                        <td><center><?=$detail['metode']?></center></td>
+                                                        <td><center>-</center></td>
+                                                        <td><a href="<?=base_url()?>kartupiutang/kwitansi_transfer/<?= $detail['id_transfer']?>" target=_blank><center><i class="fa fa-print"></i></center></a></td>
+                                                        <td><a href="#" class="badge badge-success modalEditTransfer" data-toggle="modal" data-target="#modal_edit" data-id="<?= $detail['id_transfer']?>">edit</a></td>
+                                                    <?php endif;?>
+                                            </tr>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="data-btn-2">
+                                <table class="table table-sm cus-font w-75">
+                                    <thead>
+                                        <td>No</td>
+                                        <td>Tgl Tagihan</td>
+                                        <td>No Tagihan</td>
+                                        <td>Edit</td>
+                                        <td>Print</td>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $no = 0;
+                                            foreach ($invoice as $invoice) :?>
+                                            <tr>
+                                                <td><?= ++$no?></td>
+                                                <td><?= date("d-m-Y", strtotime($invoice['tgl_invoice']))?></td>
+                                                <td><?= substr($invoice['id_invoice'],0, 3)?>/Tag-Im/<?= date('n', strtotime($invoice['tgl_invoice']))?>/<?= date('Y', strtotime($invoice['tgl_invoice']))?></a></td>
+                                                
+                                                <td><a href="#" data-target="#modal_edit_invoice" data-id="<?=$invoice['id_invoice']?>" data-toggle="modal" class="badge badge-success modalEditInvoice">edit</a></td>
+                                                
+                                                <td><center><a target="_blank" href="<?= base_url()?>kartupiutang/invoice/<?=$invoice['id_invoice']?>"><i class="fa fa-print"></i></a></center></td>
+                                            </tr>
 
-                                    <?php endforeach;?>
-                                </tbody>
-                            </table>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -160,9 +161,8 @@
         searching: false
     })
     
-    // edit pembayaran deposit dan tagihan
-
-    $(".modalEditTagihan").click(function(){
+    // modal edit tagihan
+        $(".modalEditTagihan").click(function(){
             $("#modal-edit").html("Edit Tagihan");
             let id = $(this).data("id");
             $("#form-edit").attr("action", "<?= base_url()?>kartupiutang/edit_tagihan")
@@ -185,7 +185,9 @@
                 }
             })
         })
-        
+    // modal edit tagihan
+    
+    // modal edit cash
         $(".modalEditCash").click(function(){
             $("#modal-edit").html("Edit Pembayaran");
             let id = $(this).data("id");
@@ -209,7 +211,9 @@
                 }
             })
         })
-        
+    // modal edit cash
+    
+    // modal edit transfer
         $(".modalEditTransfer").click(function(){
             $("#modal-edit").html("Edit Pembayaran");
             let id = $(this).data("id");
@@ -223,7 +227,6 @@
                 async : true,
                 dataType : 'json',
                 success : function(data){
-                    $("#transaksi").val("pembayaran");
                     $("#edit_alamat").val(data.alamat);
                     $("#id").val(data.id_transfer);
                     $("#nama").val(data.nama_transfer);
@@ -233,7 +236,9 @@
                 }
             })
         })
-        
+    // modal edit transfer
+    
+    // modal edit deposit
         $(".modalEditDeposit").click(function(){
             $("#modal-edit").html("Edit Pembayaran");
             let id = $(this).data("id");
@@ -257,8 +262,7 @@
                 }
             })
         })
-
-    // edit pembayaran deposit dan tagihan
+    // modal edit deposit
     
     // tambah invoice
         $(".modalTambahInvoice").click(function(){
@@ -293,7 +297,6 @@
         })
     // tambah invoice
 
-    
     // modal edit invoice
         $(".modalEditInvoice").click(function(){
             let id = $(this).data("id");
@@ -410,83 +413,57 @@
         })
     // modal eit invoice
     
-    $(".modalTransaksi").click(function(){
-      $("#tipe_tagihan").val("kpq");
-      $("#tipe_kwitansi").val("kpq");
-      $("#tipe_deposit").val("kpq");
-      const id = $(this).data('id');
-      $.ajax({
-            url : "<?=base_url()?>kartupiutang/getdatakpq",
-            method : "POST",
-            data : {nip : id},
-            async : true,
-            dataType : 'json',
-            success : function(data){
-                // console.log(data);
-                $(".nama-title").html(data.nama_kpq);
-                $("#id_kwitansi").val(data.nip);
-                $("#id_tagihan").val(data.nip);
-                $("#id_deposit").val(data.nip);
-                $("#nama_tagihan").val(data.nama_kpq);
-                $("#nama_kwitansi").val(data.nama_kpq);
-                $("#nama_deposit").val(data.nama_kpq);
-            }
+    // modal transaksi
+        $("#form-2").hide();
+        $("#form-3").hide();
+        $("#btn-form-1").addClass("active");
+
+        $("#btn-form-1").click(function(){
+            $("#form-1").show();
+            $("#form-2").hide();
+            $("#form-3").hide();
+
+            $("#btn-form-1").addClass("active");
+            $("#btn-form-2").removeClass("active");
+            $("#btn-form-3").removeClass("active");
         })
-    })
-    $("#form-2").hide();
-    $("#form-3").hide();
-    $("#btn-form-1").addClass("active");
+        
+        $("#btn-form-2").click(function(){
+            $("#form-1").hide();
+            $("#form-2").show();
+            $("#form-3").hide();
 
-    $("#btn-form-1").click(function(){
-      $("#form-1").show();
-      $("#form-2").hide();
-      $("#form-3").hide();
+            $("#btn-form-1").removeClass("active");
+            $("#btn-form-2").addClass("active");
+            $("#btn-form-3").removeClass("active");
+        })
+        
+        $("#btn-form-3").click(function(){
+            $("#form-1").hide();
+            $("#form-2").hide();
+            $("#form-3").show();
 
-      $("#btn-form-1").addClass("active");
-      $("#btn-form-2").removeClass("active");
-      $("#btn-form-3").removeClass("active");
-    })
-    
-    $("#btn-form-2").click(function(){
-      $("#form-1").hide();
-      $("#form-2").show();
-      $("#form-3").hide();
-
-      $("#btn-form-1").removeClass("active");
-      $("#btn-form-2").addClass("active");
-      $("#btn-form-3").removeClass("active");
-    })
-    
-    $("#btn-form-3").click(function(){
-      $("#form-1").hide();
-      $("#form-2").hide();
-      $("#form-3").show();
-
-      $("#btn-form-1").removeClass("active");
-      $("#btn-form-2").removeClass("active");
-      $("#btn-form-3").addClass("active");
-    })
+            $("#btn-form-1").removeClass("active");
+            $("#btn-form-2").removeClass("active");
+            $("#btn-form-3").addClass("active");
+        })
+    // modal transaksi
 
     // validasi
-    $("#nominal").keyup(function(){
-        $("#nominal").val(formatRupiah(this.value, 'Rp. '))
-    })
-
-    $("#nominal_pembayaran").keyup(function(){
-        $("#nominal_pembayaran").val(formatRupiah(this.value, 'Rp. '))
-    })
-
-    $("#nominal_piutang").keyup(function(){
-        $("#nominal_piutang").val(formatRupiah(this.value, 'Rp. '))
-    })
-
-    $("#nominal_deposit").keyup(function(){
-        $("#nominal_deposit").val(formatRupiah(this.value, 'Rp. '))
-    })
+        $("input[name='nominal']").keyup(function(){
+            $(this).val(formatRupiah(this.value, 'Rp. '))
+        })
+    // validasi
 
     // submit
-    $("#btn-submit-1, #btn-submit-2, #btn-submit-3").click(function(){
-      var c = confirm("Yakin akan menambahkan data?");
-      return c;
-    })
+        $("#btn-submit-1, #btn-submit-2, #btn-submit-3").click(function(){
+            var c = confirm("Yakin akan menambahkan data?");
+            return c;
+        })
+        
+        $("#submitModalEditData").click(function(){
+            var c = confirm("Yakin akan merubah data?");
+            return c;
+        })
+    // submit
 </script>
