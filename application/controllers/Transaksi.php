@@ -4,11 +4,27 @@ class Transaksi extends CI_CONTROLLER{
         parent::__construct();
         // $this->load->model("Keuangan_model");
         $this->load->model("Keuangan_model");
+        $this->load->model("Transaksi_model");
         $this->load->model("Main_model");
         if($this->session->userdata('status') != "login"){
             $this->session->set_flashdata('login', 'Maaf, Anda harus login terlebih dahulu');
 			redirect(base_url("login"));
         }
+    }
+
+    public function laporan(){
+        // $data['title'] = 'Form Laporan';
+        $data['title'] = "Form Laporan";
+        $data['sidebar'] = "laporan";
+        $data['sidebarDropdown'] = "";
+
+        // $this->load->view('templates/header', $data);
+        // $this->load->view('templates/sidebar');
+        // $this->load->view('laporan/form-laporan');
+        // $this->load->view('templates/footer');
+        $this->load->view("layout/header", $data);
+        $this->load->view("layout/navbar", $data);
+        $this->load->view("rekap/form-laporan", $data);
     }
 
     public function cetak_laporan(){
@@ -102,7 +118,48 @@ class Transaksi extends CI_CONTROLLER{
 
             // var_dump($data);
             $this->load->view("transaksi/excel_invoice", $data);
-        } 
+        } else if($tipe == "ppu"){
+            $tgl_awal = $this->input->post("tgl_awal");
+            $tgl_akhir = $this->input->post("tgl_akhir");
+            
+            $data['title'] = "Laporan Transaksi PPU " . date("d-m-y", strtotime($tgl_awal)) . " - " . date("d-m-y", strtotime($tgl_akhir));
+            
+            $name = "Transaksi PPU " . $tgl_awal . " - " . $tgl_akhir;
+            header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+
+            $data['transaksi'] = [];
+            $i = 0;
+            // $cash = $this->Main_model->get_all("ppu_cash", "tgl between '$tgl_awal' AND '$tgl_akhir'");
+            // foreach ($cash as $cash) {
+            //     $data['transaksi'][$i] = $cash;
+            //     $data['transaksi'][$i]['metode'] = "Cash";
+            //     $data['transaksi'][$i]['id'] = "PPU".$cash['id'];
+            //     $i++;
+            // }
+            $tgl = [];
+            
+            $transfer = $this->Main_model->get_all("ppu_transfer", "tgl between '$tgl_awal' AND '$tgl_akhir'");
+            foreach ($transfer as $transfer) {
+                $tgl[] = $transfer['tgl'];
+                $data['transaksi'][$i] = $transfer;
+                $data['transaksi'][$i]['metode'] = "Transfer";
+                $data['transaksi'][$i]['id'] = substr($transfer['id'],0, 3)."/PPU-Im/".date('m', strtotime($transfer['tgl']))."/".date('Y', strtotime($transfer['tgl']));
+                $i++;
+            }
+            
+            $data['tgl'] = array_unique($tgl);
+            
+            usort($data['tgl'], function($a, $b) {
+                return $a <=> $b;
+            });
+
+            usort($data['transaksi'], function($a, $b) {
+                return $a['tgl'] <=> $b['tgl'];
+            });
+
+            $this->load->view("ppu/laporan_ppu", $data);
+        }
     }
 
     public function edit_status_tagihan(){
@@ -111,55 +168,129 @@ class Transaksi extends CI_CONTROLLER{
     }
 
     public function lainnya(){
+        
         $data['title'] = "Transaksi Lain-Lain";
-        $data['header'] = "Transaksi Lain-Lain";
-        // $data['detail'] = $this->Transaksi_model->get_transaksi_lain();
-        $cash = $this->Main_model->get_all("pembayaran", "id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_peserta) AND id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_kelas) AND id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_kpq)");
-        $i = 1;
-        $data['detail'] = [];
+        // $data['header'] = "Transaksi Lain-Lain";
+        
+        $data['sidebar'] = "transaksi lain";
+        $data['sidebarDropdown'] = "transaksi lainnya";
+        // $data['title'] = "Transaksi Lain-Lain";
+        // $data['header'] = "Transaksi Lain-Lain";
+        // // $data['detail'] = $this->Transaksi_model->get_transaksi_lain();
+        // $cash = $this->Main_model->get_all("pembayaran", "id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_peserta) AND id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_kelas) AND id_pembayaran NOT IN(SELECT id_pembayaran FROM pembayaran_kpq)");
+        // $i = 1;
+        // $data['detail'] = [];
 
-        foreach ($cash as $cash) {
-            $data['detail'][$i] = $cash;
-            $data['detail'][$i]['tgl'] = $cash['tgl_pembayaran'];
-            $data['detail'][$i]['nama'] = $cash['nama_pembayaran'];
-            $i++;
-        }
+        // foreach ($cash as $cash) {
+        //     $data['detail'][$i] = $cash;
+        //     $data['detail'][$i]['tgl'] = $cash['tgl_pembayaran'];
+        //     $data['detail'][$i]['nama'] = $cash['nama_pembayaran'];
+        //     $i++;
+        // }
 
-        $transfer = $this->Main_model->get_all("transfer", "id_transfer NOT IN(SELECT id_transfer FROM transfer_peserta) AND id_transfer NOT IN(SELECT id_transfer FROM transfer_kelas) AND id_transfer NOT IN(SELECT id_transfer FROM transfer_kpq)");
-        foreach ($transfer as $transfer) {
-            $data['detail'][$i] = $transfer;
-            $data['detail'][$i]['tgl'] = $transfer['tgl_transfer'];
-            $data['detail'][$i]['nama'] = $transfer['nama_transfer'];
-            $i++;
-        }
+        // $transfer = $this->Main_model->get_all("transfer", "id_transfer NOT IN(SELECT id_transfer FROM transfer_peserta) AND id_transfer NOT IN(SELECT id_transfer FROM transfer_kelas) AND id_transfer NOT IN(SELECT id_transfer FROM transfer_kpq)");
+        // foreach ($transfer as $transfer) {
+        //     $data['detail'][$i] = $transfer;
+        //     $data['detail'][$i]['tgl'] = $transfer['tgl_transfer'];
+        //     $data['detail'][$i]['nama'] = $transfer['nama_transfer'];
+        //     $i++;
+        // }
 
-        usort($data['detail'], function($a, $b) {
-            // return $a['tgl'] <=> $b['tgl'];
-            if($a['tgl']==$b['tgl']) return 0;
-            return $a['tgl'] < $b['tgl']?1:-1;
-        });
+        // usort($data['detail'], function($a, $b) {
+        //     // return $a['tgl'] <=> $b['tgl'];
+        //     if($a['tgl']==$b['tgl']) return 0;
+        //     return $a['tgl'] < $b['tgl']?1:-1;
+        // });
 
-        $this->load->view("templates/header", $data);
-        $this->load->view("templates/sidebar");
+        // $this->load->view("templates/header", $data);
+        // $this->load->view("templates/sidebar");
+        // $this->load->view("transaksi/transaksi-lain", $data);
+        // $this->load->view("templates/footer");
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/navbar');
         $this->load->view("transaksi/transaksi-lain", $data);
-        $this->load->view("templates/footer");
+    }
+
+    public function invoice(){
+        $data['title'] = "Invoice Lain-Lain";
+        $data['header'] = "Invoice Lain-Lain";
+
+        $data['invoice'] = [];
+        $invoice = $this->Main_model->get_all("invoice", "id_invoice NOT IN(SELECT id_invoice FROM invoice_peserta) AND id_invoice NOT IN(SELECT id_invoice FROM invoice_kelas) AND id_invoice NOT IN(SELECT id_invoice FROM invoice_kpq)", "tgl_invoice", "DESC");
+
+        foreach ($invoice as $i => $invoice) {
+            $data['invoice'][$i] = $invoice;
+            $uraian = $this->Main_model->get_all("invoice_uraian", ["id_invoice" => $invoice['id_invoice']]);
+            $total = 0;
+            foreach ($uraian as $uraian) {
+                $total += $uraian['nominal'];
+            }
+            $data['invoice'][$i]['total'] = $total;
+        }
+
+        $data['sidebar'] = "transaksi lain";
+        $data['sidebarDropdown'] = "invoice lainnya";
+        $data['deskripsi'] = "List Invoice lain-lain";
+
+        // $this->load->view("templates/header", $data);
+        // $this->load->view("templates/sidebar");
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/navbar');
+        // $this->load->view('modal/modal_tambah_invoice');
+        // $this->load->view('modal/modal_edit_invoice');
+        $this->load->view("menu/invoice-other", $data);
+        // $this->load->view("templates/footer");
+    }
+
+    public function getListTransaksiLainnya(){
+        header('Content-Type: application/json');
+        $output = $this->Transaksi_model->getListTransaksiLainnya();
+        echo $output;
     }
 
     // add data
         public function add_transaksi_lain(){
             $metode = $this->input->post("metode");
             if($metode == "Cash"){
-                $data = [
-                    "tgl_pembayaran" => $this->input->post("tgl"),
-                    "nama_pembayaran" => $this->input->post("nama_pembayaran"),
-                    "keterangan" => $this->input->post("keterangan"),
-                    "metode" => $this->input->post("metode"),
-                    "uraian" => $this->input->post("uraian"),
-                    "nominal" => $this->Main_model->nominal($this->input->post("nominal")),
-                    "pengajar" => "-"
-                ];
-                $result = $this->Main_model->add_data("pembayaran", $data);
-                $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil menambahkan transaksi cash<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                // pembayaran
+                    if($this->input->post("tgl") < "2020-10-01"){
+                        $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Gagal menambahkan transaksi, tanggal yang Anda masukkan salah<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                        redirect($_SERVER['HTTP_REFERER']);
+                    } else {
+                        $bulan = date("m", strtotime($this->input->post("tgl")));
+                        $tahun = date("Y", strtotime($this->input->post("tgl")));
+                        $id = $this->Main_model->get_last_id_cash();
+                        if($id){
+                            $id = $id['id'] + 1;
+                        } else {
+                            $id = 1;
+                        }
+                        
+                        // id cash
+                            if($id >= 1 && $id < 10){
+                                $id_pembayaran = date('ymd', strtotime($this->input->post("tgl")))."00".$id;
+                            } else if($id >= 10 && $id < 100){
+                                $id_pembayaran = date('ymd', strtotime($this->input->post("tgl")))."0".$id;
+                            } else if($id >= 100 && $id < 1000){
+                                $id_pembayaran = date('ymd', strtotime($this->input->post("tgl"))).$id;
+                            }
+                        // id cash
+
+                        // $id_pembayaran = $id_pembayaran['id_pembayaran'] + 1;
+                        
+                        $data = [
+                            "id_pembayaran" => $id_pembayaran,
+                            "tgl_pembayaran" => $this->input->post("tgl"),
+                            "nama_pembayaran" => $this->input->post("nama_pembayaran"),
+                            "keterangan" => $this->input->post("keterangan"),
+                            "metode" => $this->input->post("metode"),
+                            "uraian" => $this->input->post("uraian"),
+                            "nominal" => $this->Main_model->nominal($this->input->post("nominal")),
+                            "pengajar" => "-"
+                        ];
+                        $this->Main_model->add_data("pembayaran", $data);
+                        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil menambahkan transaksi cash<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    }
             } else if($metode == "Transfer"){
                 // transfer
                     $id = $this->Main_model->get_last_id_transfer();

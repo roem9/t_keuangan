@@ -1,10 +1,10 @@
 <?php
 
-    function rupiah($angka){
+    // function rupiah($angka){
             
-        $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
-        return $hasil_rupiah;
-    }
+    //     $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+    //     return $hasil_rupiah;
+    // }
 
     function tgl_indo($tanggal){
         $bulan = array (1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
@@ -69,7 +69,7 @@
     <div class="page" style="width: 85%; margin: auto; padding-top: 80px">
         <table width="100%" id="atas">
             <tr>
-                <td width=70%><img src="<?=base_url()?>/assets/img/tarq.png" width="270px"></td>
+                <td width=70%><img src="<?=base_url()?>/assets/img/tarq.jpg" width="270px"></td>
                 <td style="text-align: center; background-color: rgb(152, 72, 7); color: white">
                     <span style="font-size: 26px"><b>INVOICE</b></span>
                 </td>
@@ -111,7 +111,7 @@
                 <tr>
                     <td><center><?= ++$no?></center></td>
                     <td><?= $detail['uraian']?></td>
-                    <td><?= rupiah($detail['nominal'])?></td>
+                    <td><?= rupiah($detail['satuan'])?></td>
                     <td><?= rupiah($detail['nominal'])?></td>
                 </tr>
             <?php 

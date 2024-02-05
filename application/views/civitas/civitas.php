@@ -1,29 +1,27 @@
-<div class="modal fade" id="modalCivitas" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalCivitas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title nama-title" id="exampleModalScrollableTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <form action="<?= base_url()?>civitas/edit_civitas" method="POST" enctype="multipart/form-data" class="mb-3">
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <input type="text" class="form-control form-control-sm form-1" name="status" id="status" readonly>
+                        <input type="text" class="form-control form-control-md form-1" name="status" id="status" disabled>
                     </div>
                     <div class="form-group">
                         <label for="nip">NIK</label>
-                        <input type="text" name="nip" id="nip" class="form-control form-control-sm form-1" readonly>
+                        <input type="text" name="nip" id="nip" class="form-control form-control-md form-1" readonly>
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama KPQ</label>
-                        <input type="text" class="form-control form-control-sm form-1" name="nama" id="nama" readonly>
+                        <input type="text" class="form-control form-control-md form-1" name="nama" id="nama" disabled>
                     </div>
                     <div class="form-group">
                         <label for="golongan">Golongan <span class="text-danger">*</span></label>
-                        <select name="golongan" id="golongan" class="form-control form-control-sm">
+                        <select name="golongan" id="golongan" class="form-control form-control-md">
                             <option value="A">Golongan A</option>
                             <option value="B">Golongan B</option>
                             <option value="C">Golongan C</option>
@@ -34,19 +32,19 @@
                     </div>
                     <div class="form-group">
                         <label for="tgl_masuk">Tgl Bergabung</label>
-                        <input type="date" class="form-control form-control-sm form-1" name="tgl_masuk" id="tgl_masuk" readonly>
+                        <input type="date" class="form-control form-control-md form-1" name="tgl_masuk" id="tgl_masuk" disabled>
                     </div>
                     <div class="form-group">
                         <label for="tgl_kelas">Tgl Kelas Pertama</label>
-                        <input type="date" class="form-control form-control-sm form-1" name="tgl_kelas" id="tgl_kelas" readonly>
+                        <input type="date" class="form-control form-control-md form-1" name="tgl_kelas" id="tgl_kelas" disabled>
                     </div>
                     <div class="form-group">
                         <label for="tgl_keluar">Tgl Keluar</label>
-                        <input type="date" class="form-control form-control-sm form-1" name="tgl_keluar" id="tgl_keluar" readonly>
+                        <input type="date" class="form-control form-control-md form-1" name="tgl_keluar" id="tgl_keluar" disabled>
                     </div>
                     <div class="form-group">
                         <label for="lama_bergabung">Lama Memiliki Kelas</label>
-                        <input type="text" class="form-control form-control-sm form-1" id="lama_bergabung" readonly>
+                        <input type="text" class="form-control form-control-md form-1" id="lama_bergabung" disabled>
                     </div>
                     <div class="d-flex justify-content-end">
                         <input type="submit" value="Update Data Civitas" class="btn btn-sm btn-success" id="btn-submit-1">
@@ -58,77 +56,88 @@
     </form>
 </div>
 
-<div id="content-wrapper" class="d-flex flex-column">
-    <div id="content">
-        <div class="container-fluid">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800 mt-3"><?= $title?></h1>
+<div class="card shadow mb-4 overflow-auto">
+    <div class="card-header pb-0 d-flex justify-content-between">
+        <div class="d-lg-flex">
+            <div>
+            <h5 class="mb-0"><?= $title ?></h5>
+            <p class="text-sm mb-0">
+                <?= $deskripsi?>
+            </p>
             </div>
-            <?php if( $this->session->flashdata('pesan') ) : ?>
-                <div class="row">
-                    <div class="col-6">
-                        <?= $this->session->flashdata('pesan');?>
-                        </div>
-                </div>
-            <?php endif; ?>
-            <?php if($civitas):?>
-                <div class="card shadow mb-4" style="max-width: 800px">
-                    <div class="card-body">
-                        <table id="dataTable" class="table table-sm cus-font">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Status</th>
-                                    <th>NIK</th>
-                                    <th>Nama KPQ</th>
-                                    <th>Tgl. Kelas</th>
-                                    <th>Golongan</th>
-                                    <th><center>Detail</center></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    $no = 0;
-                                    foreach ($civitas as $civitas) :?>
-                                    <tr>
-                                        <td><center><?=++$no?></center></td>
-                                        <td><?= $civitas['status']?></td>
-                                        <td><?= $civitas['nip']?></td>
-                                        <td style="width: 30%"><?= $civitas['nama_kpq']?>
-                                        <td>
-                                            <center>
-                                                <?php 
-                                                    if($civitas['tgl_kelas'] == "0000-00-00"){
-                                                        echo "-";
-                                                    } else {
-                                                        echo date("d-M-Y", strtotime($civitas['tgl_kelas']));
-                                                    };
-                                                ?>
-                                            </center>
-                                        </td>
-                                        <td>Gol. <?= $civitas['golongan']?></td>
-                                        <td><center><a href="#" class="badge badge-warning modalCivitas" data-toggle="modal" data-target="#modalCivitas" data-id="<?= $civitas['nip']?>">detail</a></center></td>
-                                    </tr>
-                                <?php endforeach;?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            <?php else :?>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-warning"><i class="fa fa-exclamation-circle text-warning mr-1"></i>Data civitas kosong</div>
-                    </div>
-                </div>
-            <?php endif;?>
         </div>
+    </div>
+    <div class="card-body">
+        <table id="tableData" class="table table-hover align-items-center mb-0 text-dark">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder w-1 desktop">Status</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder w-1 all">NIK</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Nama KPQ</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder w-1 desktop">Tgl Kelas</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Golongan</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </div>
 
+<?= footer()?>
 <script>
-    $("#civitas").addClass("active");
+    <?php if( $this->session->flashdata('pesan') ) : ?>
+		Toast.fire({
+			icon: "success",
+			title: "<?= $this->session->flashdata('pesan')?>"
+		});
+	<?php endif; ?>
+    
+    var dataTable = $('#tableData').DataTable({
+        initComplete: function () {
+            var api = this.api();
+            $("#mytable_filter input")
+                .off(".DT")
+                .on("input.DT", function () {
+                    api.search(this.value).draw();
+                });
+        },
+        oLanguage: {
+            sProcessing: "loading...",
+        },
+        language: {
+            paginate: {
+                first: '<<',
+                previous: '<',
+                next: '>',
+                last: '>>'
+            }
+        },
+        processing: true,
+        serverSide: true,
+        ajax: { url: `<?= base_url()?>civitas/getListCivitas/<?= $kode?>`, type: "POST" },
+        columns: [
+            { data: "status", orderable: true, searchable: true, className: "text-sm w-1 text-center" },
+            { data: "nip", orderable: true, searchable: true, className: "text-sm w-1" },
+            { data: "nama_kpq", orderable: true, searchable: true, className: "text-sm" },
+            { data: "tgl_kelas", orderable: true, searchable: true, className: "text-sm w-1" },
+            { data: "golongan", orderable: true, searchable: true, className: "text-sm w-1 text-center" },
+            { data: "action", orderable: true, searchable: true, className: "text-sm w-1 text-center" },
+        ],
+        order: [[2, "asc"]],
+        rowReorder: {
+            selector: "td:nth-child(0)",
+        },
+        responsive: true,
+        pageLength: 5,
+        lengthMenu: [
+        [5, 10, 20],
+        [5, 10, 20]
+        ]
+    });
 
-    $(".modalCivitas").click(function(){
+    $(document).on("click", ".modalCivitas", function(){
         const id = $(this).data('id');
         $.ajax({
             url : "<?=base_url()?>civitas/get_civitas_by_nip",

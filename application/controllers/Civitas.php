@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Civitas extends CI_CONTROLLER{
     public function __construct(){
         parent::__construct();
+        $this->load->model("Civitas_model");
         $this->load->model("Keuangan_model");
         $this->load->model("Main_model");
         if($this->session->userdata("status") != "login"){
@@ -13,32 +14,56 @@ class Civitas extends CI_CONTROLLER{
 
     public function index(){
         $data['title'] = "List KPQ";
-        $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "012", "status" => "aktif"], "nama_kpq");
+        $data['sidebar'] = "civitas";
+        $data['sidebarDropdown'] = "kpq";
+        $data['deskripsi'] = 'List civitas dengan tipe KPQ';
+        $data['kode'] = '012';
+        // $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "012", "status" => "aktif"], "nama_kpq");
 
-        $this->load->view("templates/header", $data);
-        $this->load->view("templates/sidebar");
+        // $this->load->view("layout/header", $data);
+        // $this->load->view("layout/navbar");
+        $this->load->view("layout/header", $data);
+        $this->load->view("layout/navbar", $data);
         $this->load->view("civitas/civitas", $data);
-        $this->load->view("templates/footer");
+        // $this->load->view("templates/footer");
     }
     
     public function kpq(){
         $data['title'] = "List KPQ";
-        $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "012", "status" => "aktif"], "nama_kpq");
+        $data['sidebar'] = "civitas";
+        $data['sidebarDropdown'] = "kpq";
+        $data['deskripsi'] = 'List civitas dengan tipe KPQ';
+        $data['kode'] = '012';
+        // $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "012", "status" => "aktif"], "nama_kpq");
 
-        $this->load->view("templates/header", $data);
-        $this->load->view("templates/sidebar");
-        $this->load->view("civitas/civitas");
-        $this->load->view("templates/footer");
+        // $this->load->view("layout/header", $data);
+        // $this->load->view("layout/navbar");
+        $this->load->view("layout/header", $data);
+        $this->load->view("layout/navbar", $data);
+        $this->load->view("civitas/civitas", $data);
+        // $this->load->view("templates/footer");
     }
 
     public function karyawan(){
         $data['title'] = "List Karyawan";
-        $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "011", "status" => "aktif"], "nama_kpq");
+        $data['sidebar'] = "civitas";
+        $data['sidebarDropdown'] = "karyawan";
+        $data['deskripsi'] = 'List civitas dengan tipe Karyawan';
+        $data['kode'] = '011';
+        // $data['civitas'] = $this->Main_model->get_all("kpq", ["substring(nip, 1, 3) = " => "012", "status" => "aktif"], "nama_kpq");
 
-        $this->load->view("templates/header", $data);
-        $this->load->view("templates/sidebar");
+        // $this->load->view("layout/header", $data);
+        // $this->load->view("layout/navbar");
+        $this->load->view("layout/header", $data);
+        $this->load->view("layout/navbar", $data);
         $this->load->view("civitas/civitas", $data);
-        $this->load->view("templates/footer");
+        // $this->load->view("templates/footer");
+    }
+
+    function getListCivitas($tipe) { //data data produk by JSON object
+        header('Content-Type: application/json');
+        $output = $this->Civitas_model->getListCivitas($tipe);
+        echo $output;
     }
 
     // edit
@@ -50,9 +75,9 @@ class Civitas extends CI_CONTROLLER{
             $result = $this->Main_model->edit_data("kpq", ["nip" => $nip], $data);
 
             if($result)
-                $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengubah</strong> data civitas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                $this->session->set_flashdata('pesan', 'Berhasil <strong>mengubah</strong> data civitas');
             else
-                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">Gagal <strong>mengubah</strong> data civitas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                $this->session->set_flashdata('pesan', 'Gagal <strong>mengubah</strong> data civitas');
             redirect($_SERVER['HTTP_REFERER']);
         }
     // edit

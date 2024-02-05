@@ -3,6 +3,8 @@
         public function __construct(){
             parent::__construct();
             $this->load->model('Keuangan_model');
+            $this->load->model('Piutang_model');
+            $this->load->model('Main_model');
             
             if($this->session->userdata('status') != "login"){
                 $this->session->set_flashdata('flash', 'Maaf, Anda harus login terlebih dahulu');
@@ -15,122 +17,198 @@
         }
 
         public function reguler(){
+            // $data['title'] = 'Piutang Peserta Reguler';
+            
+            // $data["peserta"] = [];
+
+            // $peserta = $this->Keuangan_model->get_peserta_reguler();
+            // foreach ($peserta as $key => $peserta) {
+            //     $data['peserta'][$key] = $peserta;
+
+            //     // tagihan
+            //     $tagihan = $this->Keuangan_model->get_total_tagihan_peserta($peserta['id_peserta']);
+            //     // deposit
+            //     $deposit = $this->Keuangan_model->get_total_deposit_peserta($peserta['id_peserta']);
+            //     // bayar cash
+            //     $cash = $this->Keuangan_model->get_total_cash_peserta($peserta['id_peserta']);
+            //     // bayar transfer
+            //     $transfer = $this->Keuangan_model->get_total_transfer_peserta($peserta['id_peserta']);
+
+            //     $data['peserta'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+
+            //     $data['peserta'][$key]['bayar'] = $transfer['total'] + $cash['total'];
+            // }
+            
+            // $this->load->view('templates/header', $data);
+            // $this->load->view('templates/sidebar');
+            // $this->load->view('piutang/piutang_peserta', $data);
+            // $this->load->view('templates/footer');
+
             $data['title'] = 'Piutang Peserta Reguler';
-            
-            $data["peserta"] = [];
 
-            $peserta = $this->Keuangan_model->get_peserta_reguler();
-            foreach ($peserta as $key => $peserta) {
-                $data['peserta'][$key] = $peserta;
+            $data['sidebar'] = "transaksi";
+            $data['sidebarDropdown'] = "piutang reguler";
 
-                // tagihan
-                $tagihan = $this->Keuangan_model->get_total_tagihan_peserta($peserta['id_peserta']);
-                // deposit
-                $deposit = $this->Keuangan_model->get_total_deposit_peserta($peserta['id_peserta']);
-                // bayar cash
-                $cash = $this->Keuangan_model->get_total_cash_peserta($peserta['id_peserta']);
-                // bayar transfer
-                $transfer = $this->Keuangan_model->get_total_transfer_peserta($peserta['id_peserta']);
-
-                $data['peserta'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
-
-                $data['peserta'][$key]['bayar'] = $transfer['total'] + $cash['total'];
-            }
-            
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar');
-            $this->load->view('piutang/piutang_peserta', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/navbar');
+            $this->load->view("piutang/piutang_peserta", $data);
         }
 
         public function pvKhusus(){
+            // $data['title'] = 'Piutang Kelas Pv Khusus';
+
+            // $data['kelas'] = [];
+
+            // $kelas = $this->Keuangan_model->get_kelas_pv_khusus();
+            // foreach ($kelas as $key => $kelas) {
+            //     $data['kelas'][$key] = $kelas;
+                
+            //     // tagihan
+            //     $tagihan = $this->Keuangan_model->get_total_tagihan_kelas($kelas['id_kelas']);
+            //     // deposit
+            //     $deposit = $this->Keuangan_model->get_total_deposit_kelas($kelas['id_kelas']);
+            //     // bayar cash
+            //     $cash = $this->Keuangan_model->get_total_cash_kelas($kelas['id_kelas']);
+            //     // bayar transfer
+            //     $transfer = $this->Keuangan_model->get_total_transfer_kelas($kelas['id_kelas']);
+
+            //     $data['kelas'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+
+            //     $data['kelas'][$key]['bayar'] = $transfer['total'] + $cash['total'];
+            // }
+
+            // $this->load->view('templates/header', $data);
+            // $this->load->view('templates/sidebar');
+            // $this->load->view('piutang/piutang_kelas', $data);
+            // $this->load->view('templates/footer');
+
             $data['title'] = 'Piutang Kelas Pv Khusus';
 
-            $data['kelas'] = [];
+            $data['sidebar'] = "transaksi";
+            $data['sidebarDropdown'] = "piutang pv khusus";
+            $data['table'] = 'kelas_pv_khusus';
 
-            $kelas = $this->Keuangan_model->get_kelas_pv_khusus();
-            foreach ($kelas as $key => $kelas) {
-                $data['kelas'][$key] = $kelas;
-                
-                // tagihan
-                $tagihan = $this->Keuangan_model->get_total_tagihan_kelas($kelas['id_kelas']);
-                // deposit
-                $deposit = $this->Keuangan_model->get_total_deposit_kelas($kelas['id_kelas']);
-                // bayar cash
-                $cash = $this->Keuangan_model->get_total_cash_kelas($kelas['id_kelas']);
-                // bayar transfer
-                $transfer = $this->Keuangan_model->get_total_transfer_kelas($kelas['id_kelas']);
-
-                $data['kelas'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
-
-                $data['kelas'][$key]['bayar'] = $transfer['total'] + $cash['total'];
-            }
-
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar');
-            $this->load->view('piutang/piutang_kelas', $data);
-            $this->load->view('templates/footer');
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/navbar');
+            $this->load->view("piutang/piutang_kelas", $data);
         }
         
         public function pvLuar(){
+            // $data['title'] = 'Piutang Kelas Pv Luar';
+
+            // $data['kelas'] = [];
+
+            // $kelas = $this->Main_model->get_all("kelas_pv_luar", "ket <> 'pv instansi'", "nama_peserta");
+            // foreach ($kelas as $key => $kelas) {
+            //     $data['kelas'][$key] = $kelas;
+            //     // tagihan
+            //     $tagihan = $this->Keuangan_model->get_total_tagihan_kelas($kelas['id_kelas']);
+            //     // deposit
+            //     $deposit = $this->Keuangan_model->get_total_deposit_kelas($kelas['id_kelas']);
+            //     // bayar cash
+            //     $cash = $this->Keuangan_model->get_total_cash_kelas($kelas['id_kelas']);
+            //     // bayar transfer
+            //     $transfer = $this->Keuangan_model->get_total_transfer_kelas($kelas['id_kelas']);
+
+            //     $data['kelas'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+
+            //     $data['kelas'][$key]['bayar'] = $transfer['total'] + $cash['total'];
+            //     $data['kelas'][$key]['tagihan'] = $this->Keuangan_model->get_tagihan_kelas($kelas['id_kelas']);
+            // }
+
+            // $this->load->view('templates/header', $data);
+            // $this->load->view('templates/sidebar');
+            // $this->load->view('piutang/piutang_kelas', $data);
+            // $this->load->view('templates/footer');
+
             $data['title'] = 'Piutang Kelas Pv Luar';
+            // $data['tabs'] = 'pvluar';
+            $data['sidebar'] = "transaksi";
+            $data['sidebarDropdown'] = "piutang pv luar";
+            $data['table'] = 'kelas_pv_luar';
 
-            $data['kelas'] = [];
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/navbar');
+            $this->load->view("piutang/piutang_kelas", $data);
+        }
 
-            $kelas = $this->Keuangan_model->get_kelas_pv_luar();
-            foreach ($kelas as $key => $kelas) {
-                $data['kelas'][$key] = $kelas;
-                // tagihan
-                $tagihan = $this->Keuangan_model->get_total_tagihan_kelas($kelas['id_kelas']);
-                // deposit
-                $deposit = $this->Keuangan_model->get_total_deposit_kelas($kelas['id_kelas']);
-                // bayar cash
-                $cash = $this->Keuangan_model->get_total_cash_kelas($kelas['id_kelas']);
-                // bayar transfer
-                $transfer = $this->Keuangan_model->get_total_transfer_kelas($kelas['id_kelas']);
+        public function pvInstansi(){
+            // $data['title'] = 'Piutang Kelas Pv Instansi';
 
-                $data['kelas'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+            // $data['kelas'] = [];
 
-                $data['kelas'][$key]['bayar'] = $transfer['total'] + $cash['total'];
-                $data['kelas'][$key]['tagihan'] = $this->Keuangan_model->get_tagihan_kelas($kelas['id_kelas']);
-            }
+            // $kelas = $this->Main_model->get_all("kelas_pv_luar", ["ket" => "pv instansi"], "nama_peserta");
+            // foreach ($kelas as $key => $kelas) {
+            //     $data['kelas'][$key] = $kelas;
+            //     // tagihan
+            //     $tagihan = $this->Keuangan_model->get_total_tagihan_kelas($kelas['id_kelas']);
+            //     // deposit
+            //     $deposit = $this->Keuangan_model->get_total_deposit_kelas($kelas['id_kelas']);
+            //     // bayar cash
+            //     $cash = $this->Keuangan_model->get_total_cash_kelas($kelas['id_kelas']);
+            //     // bayar transfer
+            //     $transfer = $this->Keuangan_model->get_total_transfer_kelas($kelas['id_kelas']);
 
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar');
-            $this->load->view('piutang/piutang_kelas', $data);
-            $this->load->view('templates/footer');
+            //     $data['kelas'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+
+            //     $data['kelas'][$key]['bayar'] = $transfer['total'] + $cash['total'];
+            //     $data['kelas'][$key]['tagihan'] = $this->Keuangan_model->get_tagihan_kelas($kelas['id_kelas']);
+            // }
+
+            // $this->load->view('templates/header', $data);
+            // $this->load->view('templates/sidebar');
+            // $this->load->view('piutang/piutang_kelas', $data);
+            // $this->load->view('templates/footer');
+
+            $data['title'] = 'Piutang Kelas Pv Instansi';
+            // $data['tabs'] = 'pvluar';
+            $data['sidebar'] = "transaksi";
+            $data['sidebarDropdown'] = "piutang pv instansi";
+            $data['table'] = 'kelas_pv_instansi';
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/navbar');
+            $this->load->view("piutang/piutang_kelas", $data);
         }
 
         public function kpq(){
-            $data['title'] = 'Piutang Civitas';
-            $data['tabs'] = 'kpq';
+            // $data['title'] = 'Piutang Civitas';
+            // $data['tabs'] = 'kpq';
             
-            $data['kpq'] = [];
-            $kpq = $this->Keuangan_model->get_all_civitas();
-            foreach ($kpq as $key => $kpq) {
-                $data['kpq'][$key] = $kpq;
+            // $data['kpq'] = [];
+            // $kpq = $this->Keuangan_model->get_all_civitas();
+            // foreach ($kpq as $key => $kpq) {
+            //     $data['kpq'][$key] = $kpq;
                 
-                // tagihan
-                $tagihan = $this->Keuangan_model->get_total_tagihan_kpq($kpq['nip']);
-                // deposit
-                $deposit = $this->Keuangan_model->get_total_deposit_kpq($kpq['nip']);
-                // bayar cash
-                $cash = $this->Keuangan_model->get_total_cash_kpq($kpq['nip']);
-                // bayar transfer
-                $transfer = $this->Keuangan_model->get_total_transfer_kpq($kpq['nip']);
+            //     // tagihan
+            //     $tagihan = $this->Keuangan_model->get_total_tagihan_kpq($kpq['nip']);
+            //     // deposit
+            //     $deposit = $this->Keuangan_model->get_total_deposit_kpq($kpq['nip']);
+            //     // bayar cash
+            //     $cash = $this->Keuangan_model->get_total_cash_kpq($kpq['nip']);
+            //     // bayar transfer
+            //     $transfer = $this->Keuangan_model->get_total_transfer_kpq($kpq['nip']);
 
-                $data['kpq'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
+            //     $data['kpq'][$key]['piutang'] =  $tagihan['total'] + $deposit['total'] ;
 
-                $data['kpq'][$key]['bayar'] = $transfer['total'] + $cash['total'];
-            }
+            //     $data['kpq'][$key]['bayar'] = $transfer['total'] + $cash['total'];
+            // }
 
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar');
-            $this->load->view('piutang/piutang_kpq', $data);
-            $this->load->view('templates/footer');
+            // $this->load->view('templates/header', $data);
+            // $this->load->view('templates/sidebar');
+            // $this->load->view('piutang/piutang_kpq', $data);
+            // $this->load->view('templates/footer');
+
+            $data['title'] = 'Piutang Civitas';
+            $data['sidebar'] = "transaksi";
+            $data['sidebarDropdown'] = "piutang civitas";
+
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/navbar');
+            $this->load->view("piutang/piutang_kpq", $data);
         }
 
-        public function generatePiutang(){
+        public function generatePiutangPrivat(){
             $bulan = ["1" => "Januari", "2" => "Februari", "3" => "Maret", "4" => "April", "5" => "Mei", "6" => "Juni", "7" => "Juli", "8" => "Agustus", "9" => "September", "10" => "Oktober", "11" => "November", "12" => "Desember"];
 
             $kelas = $this->Keuangan_model->getAllKelasPvAktif();
@@ -190,7 +268,15 @@
 
                 $this->Keuangan_model->insert_tagihan_kelas($data);
             }
+
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengenerate</strong> piutang peserta privat<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             
+            redirect('piutang/pvluar');
+        }
+        
+        public function generatePiutangReguler(){
+            $bulan = ["1" => "Januari", "2" => "Februari", "3" => "Maret", "4" => "April", "5" => "Mei", "6" => "Juni", "7" => "Juli", "8" => "Agustus", "9" => "September", "10" => "Oktober", "11" => "November", "12" => "Desember"];
+
             $reguler = $this->Keuangan_model->getInfaqByKet("reguler");
             $peserta = $this->Keuangan_model->getAllPesertaRegulerAktif();
             $uraian = $bulan[date('n')] . " " . date('Y');
@@ -219,7 +305,7 @@
 
             }
 
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengenerate</strong> piutang<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengenerate</strong> piutang peserta reguler<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
             
             redirect('piutang/pvluar');
         }
@@ -255,6 +341,40 @@
             $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengubah</strong> pj kelas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 
             redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        public function edit_ket($id, $ket){
+            if($ket == "pvinstansi"){
+                $data = [
+                    "ket" => "pv luar"
+                ];
+                $this->Main_model->edit_data("kelas", ["id_kelas" => $id], $data);
+            } else if($ket == "pvluar"){
+                $data = [
+                    "ket" => "pv instansi"
+                ];
+                $this->Main_model->edit_data("kelas", ["id_kelas" => $id], $data);
+            }
+            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengubah</strong> tipe kelas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        function getListPiutangReguler() { //data data produk by JSON object
+            header('Content-Type: application/json');
+            $output = $this->Piutang_model->getListPiutangReguler();
+            echo $output;
+        }
+
+        function getListPiutangCivitas() { //data data produk by JSON object
+            header('Content-Type: application/json');
+            $output = $this->Piutang_model->getListPiutangCivitas();
+            echo $output;
+        }
+
+        function getListPiutangPrivat($table) { //data data produk by JSON object
+            header('Content-Type: application/json');
+            $output = $this->Piutang_model->getListPiutangPrivat($table);
+            echo $output;
         }
     }
 

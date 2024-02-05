@@ -1,10 +1,10 @@
 <?php
 
-    function rupiah($angka){
+    // function rupiah($angka){
             
-        $hasil_rupiah = number_format($angka,0,',','.');
-        return $hasil_rupiah;
-    }
+    //     $hasil_rupiah = number_format($angka,0,',','.');
+    //     return $hasil_rupiah;
+    // }
 
     function tgl_indo($tanggal){
         $bulan = array (1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
@@ -69,12 +69,11 @@
                 <td style="padding-left: 150px"><?= $data['nama_transfer']?></td>
             </tr>
             <tr>
-                <td><?= $data['nama_transfer']?></td>
+                <td rowspan=2 style="vertical-align:top"><?= $data['nama_transfer']?></td>
                 <td style="padding-left: 150px"><?= ucfirst(terbilang($data['nominal']))?> rupiah</td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
+                <td>Alamat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ml-3"><?= $data['alamat']?></span></td>
             </tr>
             <tr>
                 <td><?= $data['alamat']?></td>

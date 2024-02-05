@@ -1,10 +1,10 @@
 <?php
     set_time_limit(300);
-    function rupiah($angka){
+    // function rupiah($angka){
         
-        $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
-        return $hasil_rupiah;
-    }
+    //     $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+    //     return $hasil_rupiah;
+    // }
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +86,7 @@
                         <option value="piutang pv luar">Piutang Pv Luar</option>
                         <!-- <option value="piutang reguler">Piutang Reguler</option> -->
                         <option value="transfer">Transfer</option>
+                        <option value="ppu">PPU</option>
                       </select>
                     </div>
                     <div class="form-group">
