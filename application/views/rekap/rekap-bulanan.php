@@ -1,9 +1,9 @@
 <?php
-    function rupiah($angka){
+    // function rupiah($angka){
             
-        $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
-        return $hasil_rupiah;
-    }
+    //     $hasil_rupiah = "Rp " . number_format($angka,0,',','.');
+    //     return $hasil_rupiah;
+    // }
 
     function ot($gol, $kbm, $oot){
         if($gol != 'E'){
@@ -131,6 +131,7 @@
                                     <th rowspan=2>Sesuai</th>
                                     <th rowspan=2>Ganti</th>
                                     <th rowspan=2>Badal</th>
+                                    <th rowspan=2>Total</th>
                                     <th rowspan=2>Tempat</th>
                                     <th rowspan=2>Honor</th>
                                     <th rowspan=2>OT</th>
@@ -208,6 +209,7 @@
                                             <td><center><?=$kbm_sesuai?></center></td>
                                             <td><center><?=$kbm_ganti?></center></td>
                                             <td><center><?=$kbm_badal?></center></td>
+                                            <td><center><?=$kbm_sesuai + $kbm_ganti?></center></td>
                                             <td><?=$kelas['tempat']?></td>
 
                                             <!-- honor -->

@@ -54,6 +54,8 @@ class Rekap extends CI_CONTROLLER{
     }
 
     public function exporthonor($bulan, $tahun){
+        // var_dump($bulan, $tahun);
+        // exit();
 
         $filename = "Rekap_Honor_{$bulan}_{$tahun}";
 

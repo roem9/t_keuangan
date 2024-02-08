@@ -88,3 +88,8 @@
     
         return $formattedAmount;
     }
+
+    function rupiahToInt($amount){
+        $formattedAmount = str_replace(array('.','Rp'), '', $amount);
+        return intval($formattedAmount);
+    }

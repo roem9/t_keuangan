@@ -75,7 +75,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="text-align: justify"><b>YAYASAN TARBIYAT AL QURAN IMAAMUNA (TAR-Q)<br>Jl. Sidomukti No. 34 Sukaluyu Bandung 40123<br>Telp. (022) 2506410/082121723661</b></td>
+                <td style="text-align: justify"><b>YAYASAN TARBIYAT AL QURAN IMAAMUNA (TAR-Q)<br>Jl. Cingised No. 3, Cisaranten Kulon, Arcamanik, Kota Bandung 40293<br>Telp. (022) 2506410/082121723661</b></td>
                 <td>
                     <table>
                         <tr>
@@ -129,7 +129,7 @@
             </tr>
             <tr>
                 <td>Transfer via</td>
-                <td>: Bank Syariah Mandiri</td>
+                <td>: Bank Syariah Indonesia</td>
                 <td rowspan=4>
                     <center>
                     <b>BENDAHARA TAR-Q</b><br>
@@ -149,7 +149,7 @@
                 <td colspan=2>Harga sudah termasuk pajak</td>
             </tr>
             <tr>
-                <td colspan=3><br><center>Jika sudah melakukan pembayaran mohon konfirmasi ke no. WA 081313019876 a.n Yesi</center></td>
+                <td colspan=3><br><center>Jika sudah melakukan pembayaran mohon konfirmasi ke no. WA 081313019876 a.n Keuangan LKP Tar-Q</center></td>
             </tr>
         </table>
     </div>
