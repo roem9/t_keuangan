@@ -480,7 +480,7 @@
     // modal eit invoice
 
     // modal transaksi
-        $("select[name='metode']").change(function(){
+        $(document).on("change", "select[name='metode']", function(){
             let id = $(this).val();
             console.log(id)
             if(id == "Transfer"){

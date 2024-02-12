@@ -69,6 +69,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="">Alamat</label>
+                                    <input type="text" name="alamat" id="" class="form-control form-control-md" readonly>
+                                </div>
+                                <div class="form-group">
                                     <label for="uraian">Keterangan</label>
                                     <textarea name="uraian" id="uraian" class="form-control form-control-md" required></textarea>
                                 </div>
@@ -155,6 +159,10 @@
                                         <option value="Cash">Cash</option>
                                         <option value="Transfer">Transfer</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Alamat</label>
+                                    <input type="text" name="alamat" id="" class="form-control form-control-md" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="uraian">Keterangan</label>
@@ -720,6 +728,16 @@
         $("#tipe_invoice").val("peserta");
 
         $(".content").hide();
+    })
+
+    $("select[name='metode']").change(function(){
+        let id = $(this).val();
+        console.log(id)
+        if(id == "Transfer"){
+            $("input[name='alamat']").removeAttr("readonly");
+        } else {
+            $("input[name='alamat']").prop('readonly', true);
+        }
     })
 
     // modal edit tagihan
