@@ -113,7 +113,7 @@
                         <table class="table text-dark" style="font-size: 12px" border=1>
                             <thead class="thead-light">
                                 <tr>
-                                    <th colspan=24><center><?= ++$urut.". ".$pengajar['nama_kpq'] . " ( Gol. " . $pengajar['golongan'] . " )"?></center></th>
+                                    <th colspan=25><center><?= ++$urut.". ".$pengajar['nama_kpq'] . " ( Gol. " . $pengajar['golongan'] . " )"?></center></th>
                                 </tr>
                             </thead>
                             <?php if(isset($pengajar['kelas'])) :?>
@@ -244,7 +244,7 @@
                                     <?php endforeach;?>
                                 <?php endif;?>
                                 <tr>
-                                    <th colspan=22><center>Total</center></th>
+                                    <th colspan=23><center>Total</center></th>
                                     <th><?= rupiah($total_honor[$key])?></th>
                                     <th><?= rupiah($total_ot[$key])?></th>
                                     <?php if(isset($pengajar['kbm_badal'])) :?>
@@ -256,7 +256,7 @@
 
                             <?php if(isset($pengajar['kbm_badal'])) :?>
                                 <tr>
-                                    <th colspan=24><center>KBM Badal</center></th>
+                                    <th colspan=25><center>KBM Badal</center></th>
                                 </tr>
                                 <tr>
                                     <th>No</th>
@@ -267,7 +267,7 @@
                                     <th>Program</th>
                                     <th colspan=5>Tgl KBM</th>
                                     <th colspan=9>Pengajar Yang Dibadal</th>
-                                    <th colspan=2>Kode Badal</th>
+                                    <th colspan=3>Kode Badal</th>
                                     <th>Honor</th>
                                     <th>OT</th>
                                 </tr>
@@ -285,7 +285,7 @@
                                             <td><?= $badal['program_kbm']?></td>
                                             <td colspan=5><center><?= date("d-m-Y", strtotime($badal['tgl']))?></center></td>
                                             <td colspan=9><?= $badal['nama_kpq']?></td>
-                                            <td colspan=2 style="text-align: left"><?= $badal['id_kbm']?></td>
+                                            <td colspan=3 style="text-align: left"><?= $badal['id_kbm']?></td>
                                             <td><?= rupiah($badal['biaya'])?></td>
                                             <?php 
                                                 $ot = ot($pengajar['golongan'], 1, $badal['oot']);
@@ -301,7 +301,7 @@
                                         ?>
                                 <?php endforeach;?>
                                 <tr>
-                                    <th colspan=22><center>Total</center></th>
+                                    <th colspan=23><center>Total</center></th>
                                     <th><?= rupiah($total_honor_badal[$key])?></th>
                                     <th><?= rupiah($total_ot_badal[$key])?></th>
                                     <?php if(!isset($pengajar['kelas']) && isset($pengajar['kbm_badal'])) :?>
@@ -312,7 +312,7 @@
                             
                             <?php if(isset($pengajar['kelas']) && isset($pengajar['kbm_badal'])) :?>
                                 <tr>
-                                    <th colspan=24><center>Honor + Badal</center></th>
+                                    <th colspan=25><center>Honor + Badal</center></th>
                                     <th><?= rupiah($total_honor_badal[$key] + $total_ot_badal[$key] + $total_honor[$key] + $total_ot[$key])?></th>
                                 </tr>
                             <?php endif?>
