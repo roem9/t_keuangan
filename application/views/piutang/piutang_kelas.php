@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body cus-font">
-                <form action="<?=base_url()?>piutang/edit_pj_by_id" method="POST" id="form-edit">
+                <form action="<?=base_url()?>piutang/edit_pj" method="POST" id="form-edit">
                 <input type="hidden" name="id" id="id_kelas">
                 <div class="form-group">
                     <label for="pj">Nama PJ</label>
@@ -47,7 +47,7 @@
     <?php if( $this->session->flashdata('pesan') ) : ?>
         Toast.fire({
             icon: "success",
-            title: "<?= $this->session->flashdata('pesan')?>"
+            title: `<?= $this->session->flashdata('pesan')?>`
         });
     <?php endif; ?>
 

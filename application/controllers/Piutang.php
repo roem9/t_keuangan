@@ -333,12 +333,14 @@
         public function edit_pj(){
             $id = $this->input->post("id", TRUE);
             $data = [
-                "pj" => $this->input->post("nama", TRUE)
+                "pj" => $this->input->post("pj", TRUE)
             ];
 
+            // var_dump($_POST);
+            // exit();
             $this->Keuangan_model->edit_pj($id, $data);
             
-            $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil <strong>mengubah</strong> pj kelas<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+            $this->session->set_flashdata('pesan', 'Berhasil mengubah pj kelas');
 
             redirect($_SERVER['HTTP_REFERER']);
         }
