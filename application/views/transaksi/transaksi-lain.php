@@ -12,11 +12,11 @@
                         <input type="hidden" name="pengajar" value="-">
                         <div class="form-group">
                             <label for="nama_pembayaran">Nama</label>
-                            <input type="text" name="nama_pembayaran" id="nama_pembayaran" class="form-control form-control-sm" required>
+                            <input type="text" name="nama_pembayaran" id="nama_pembayaran" class="form-control form-control-md" required>
                         </div>
                         <div class="form-group">
                             <label for="untuk">Pembayaran Untuk?</label>
-                            <select name="keterangan" id="untuk" class="form-control form-control-sm" required>
+                            <select name="keterangan" id="untuk" class="form-control form-control-md" required>
                                 <option value="">Pilih Pembayaran Untuk</option>
                                 <option value="Buku">Buku</option>
                                 <option value="Lainnya">Lainnya</option>
@@ -24,11 +24,11 @@
                         </div>
                         <div class="form-group">
                             <label for="tgl">Tgl</label>
-                            <input type="date" name="tgl" id="tgl" class="form-control form-control-sm" required>
+                            <input type="date" name="tgl" id="tgl" class="form-control form-control-md" required>
                         </div>
                         <div class="form-group">
                             <label for="metode">Metode Pembayaran</label>
-                            <select name="metode" id="metode" class="form-control form-control-sm" required>
+                            <select name="metode" id="metode" class="form-control form-control-md" required>
                                 <option value="">Pilih Tipe</option>
                                 <option value="Cash">Cash</option>
                                 <option value="Transfer">Transfer</option>
@@ -36,11 +36,11 @@
                         </div>
                         <div class="form-group">
                             <label for="uraian">Keterangan</label>
-                            <textarea name="uraian" id="uraian" class="form-control form-control-sm" required></textarea>
+                            <textarea name="uraian" id="uraian" class="form-control form-control-md" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="nominal_deposit">Nominal</label>
-                            <input type="text" name="nominal" id="nominal_deposit" class="form-control form-control-sm" required>
+                            <input type="text" name="nominal" id="nominal_deposit" class="form-control form-control-md" required>
                         </div>
                         <div class="form-group" id="formAlamat">
                             <label for="alamat">Alamat</label>
@@ -61,7 +61,7 @@
 <!-- modal transaksi lain -->
 
 <!-- modal edit transaksi -->
-    <div class="modal fade" id="modalEditPembayaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="modalEditPembayaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
             <div class="modal-header">
@@ -97,6 +97,47 @@
                         <input type="submit" class="btn btn-success btn-sm" value="Edit" id="submitEditPembayaran">
                     </div>
                 </form>
+            </div>
+        </div>
+    </div> -->
+<!-- modal edit transaksi -->
+
+<!-- modal edit transaksi -->
+    <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-edit"></h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body cus-font">
+                <form action="" method="POST" id="form-edit">
+                <input type="hidden" name="id" id="id">
+                <div class="form-group">
+                    <label for="nama">Nama</label>
+                    <input type="text" name="nama" id="nama" class="form-control form-control-md">
+                </div>
+                <div class="form-group">
+                    <label for="tgl_transaksi">Tanggal</label>
+                    <input type="date" name="tgl" id="tgl_transaksi" class="form-control form-control-md" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="keterangan">Keterangan</label>
+                    <textarea name="uraian" id="keterangan" rows="2" class="form-control form-control-md"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="nominal_uang">Nominal</label>
+                    <input type="text" name="nominal" id="nominal_uang" class="form-control form-control-md">
+                </div>
+                <div class="form-group">
+                    <label for="edit_alamat">Alamat</label>
+                    <input type="text" name="alamat" id="edit_alamat" class="form-control form-control-md" readonly>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <input type="submit" class="btn btn-success btn-sm" value="Edit" id="submitModalEditData">
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -176,9 +217,9 @@
                 searchable: false, 
                 className: "text-sm w-1 text-center",
                 render: function(data, type, row) {
-                    if(row['metode'] == 'Cash'){
+                    if(row['metode'] == 'Transfer'){
                         return `
-                            <a href="<?=base_url()?>transaksi/kuitansi/${row['id']}" target="_blank">
+                            <a href="<?=base_url()?>kartupiutang/kwitansi_transfer/${row['id']}" target="_blank">
                                 <span class="badge bg-gradient-success">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
                                         <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
@@ -186,7 +227,7 @@
                                     </svg>
                                 </span>
                             </a>
-                            <a href="javascript:void(0)" class="modalEditPembayaran" data-bs-toggle="modal" data-bs-target="#modalEditPembayaran" data-id="${row['id']}">
+                            <a href="javascript:void(0)" class="modalEditTransfer" data-bs-toggle="modal" data-bs-target="#modal_edit" data-id="${row['id']}">
                                 <span class="badge bg-gradient-info">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
                                         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
@@ -223,24 +264,75 @@
         }
     })
 
-    $(document).on("click", ".modalEditPembayaran", function(){
-        let id = $(this).data("id");
-        console.log(id)
-        $.ajax ({
-            url : "<?=base_url()?>transaksi/get_data_pembayaran",
-            method : "POST",
-            data : {id: id},
-            async : true,
-            dataType : 'json',
-            success : function(data){
-                $("#id").val(data.id_pembayaran);
-                $("#nama_edit").val(data.nama_pembayaran);
-                $("#tgl_edit").val(data.tgl_pembayaran);
-                $("#uraian_edit").val(data.uraian);
-                $("#nominal_edit").val(data.nominal);
-            }
+    // $(document).on("click", ".modalEditPembayaran", function(){
+    //     let id = $(this).data("id");
+    //     console.log(id)
+    //     $.ajax ({
+    //         url : "<?=base_url()?>transaksi/get_data_pembayaran",
+    //         method : "POST",
+    //         data : {id: id},
+    //         async : true,
+    //         dataType : 'json',
+    //         success : function(data){
+    //             $("#id").val(data.id_pembayaran);
+    //             $("#nama_edit").val(data.nama_pembayaran);
+    //             $("#tgl_edit").val(data.tgl_pembayaran);
+    //             $("#uraian_edit").val(data.uraian);
+    //             $("#nominal_edit").val(data.nominal);
+    //         }
+    //     })
+    // })
+
+    // modal edit cash
+    $(".modalEditCash").click(function(){
+            $("#modal-edit").html("Edit Pembayaran");
+            let id = $(this).data("id");
+            $("#form-edit").attr("action", "<?=base_url()?>kartupiutang/edit_pembayaran_cash")
+            $("#edit_alamat").attr("readonly", "readonly");
+            $("#edit_alamat").val("");
+
+            $.ajax ({
+                url : "<?=base_url()?>kartupiutang/get_data_pembayaran",
+                method : "POST",
+                data : {id: id},
+                async : true,
+                dataType : 'json',
+                success : function(data){
+                    $("#transaksi").val("pembayaran");
+                    $("#id").val(data.id_pembayaran);
+                    $("#nama").val(data.nama_pembayaran);
+                    $("#tgl_transaksi").val(data.tgl_pembayaran);
+                    $("#keterangan").val(data.uraian);
+                    $("#nominal_uang").val(data.nominal);
+                }
+            })
         })
-    })
+    // modal edit cash
+    
+    // modal edit transfer
+        $(document).on("click", ".modalEditTransfer", function(){
+            $("#modal-edit").html("Edit Pembayaran");
+            let id = $(this).data("id");
+            $("#form-edit").attr("action", "<?=base_url()?>kartupiutang/edit_pembayaran_transfer")
+            $("#edit_alamat").removeAttr("readonly");
+
+            $.ajax ({
+                url : "<?=base_url()?>kartupiutang/get_data_pembayaran_transfer",
+                method : "POST",
+                data : {id: id},
+                async : true,
+                dataType : 'json',
+                success : function(data){
+                    $("#edit_alamat").val(data.alamat);
+                    $("#id").val(data.id_transfer);
+                    $("#nama").val(data.nama_transfer);
+                    $("#tgl_transaksi").val(data.tgl_transfer);
+                    $("#keterangan").val(data.uraian);
+                    $("#nominal_uang").val(data.nominal);
+                }
+            })
+        })
+    // modal edit transfer
 
     // validasi
     $("input[name='nominal']").keyup(function(){
@@ -253,7 +345,11 @@
       return c;
     })
 
-    $("#submitEditPembayaran").click(function(){
+    // $("#submitEditPembayaran").click(function(){
+    //     var c = confirm("Yakin akan mengubah data transaksi?");
+    //     return c;
+    // })
+    $("#submitModalEditData").click(function(){
         var c = confirm("Yakin akan mengubah data transaksi?");
         return c;
     })
